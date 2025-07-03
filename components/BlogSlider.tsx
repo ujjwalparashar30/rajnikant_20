@@ -60,17 +60,17 @@ const posts: BlogPost[] = [
 ];
 
 const BlogSlider: React.FC<BlogSliderProps> = ({
-  autoSlide = true,
+  // autoSlide = true,
   slideInterval = 5000,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoSliding, setIsAutoSliding] = useState(autoSlide);
+  // Removed unused isAutoSliding state
   const [isTransitioning, setIsTransitioning] = useState(false);
   const router = useRouter();
 
   // Auto-slide functionality
   useEffect(() => {
-    if (!isAutoSliding) return;
+    
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
@@ -79,7 +79,7 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
     }, slideInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoSliding, slideInterval]);
+  }, [ slideInterval]);
 
   const goToPrevious = () => {
     setIsTransitioning(true);
@@ -108,13 +108,6 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
     return words.slice(0, wordLimit).join(" ");
   };
 
-  if (!posts || posts.length === 0) {
-    return (
-      <div className="w-full h-96 flex items-center justify-center bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl">
-        <p className="text-gray-500 text-lg">No blog posts available</p>
-      </div>
-    );
-  }
 
   // Responsive: show 1 blog on small, 2 on md, 3 on lg+
   const [visibleCount, setVisibleCount] = useState(3);
@@ -132,6 +125,14 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
     window.addEventListener('resize', updateVisibleCount);
     return () => window.removeEventListener('resize', updateVisibleCount);
   }, []);
+
+  if (!posts || posts.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl">
+        <p className="text-gray-500 text-lg">No blog posts available</p>
+      </div>
+    );
+  }
 
   // Get N consecutive posts starting from currentIndex, wrap around
   const getVisiblePosts = () => {

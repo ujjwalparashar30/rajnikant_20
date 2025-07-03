@@ -1,3 +1,5 @@
+
+// import type { PageProps } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Tag, Calendar, User, ArrowLeft } from "lucide-react";
@@ -38,14 +40,13 @@ const posts = [
     content: "In recent years, self-study libraries have emerged as a powerful educational trend, reshaping how students, professionals, and lifelong learners approach learning. Unlike traditional libraries that focus primarily on resource access, self-study libraries are purpose-built spaces that prioritize focus, discipline, and independent learning. This rise reflects a growing need for dedicated environments that foster deep concentration in a world increasingly filled with distractions.\n\nLet's explore why self-study libraries are booming and how they are transforming modern education.\n\nWhat Are Self-Study Libraries?\nSelf-study libraries are specialized spaces designed exclusively for focused, individual learning. They typically offer personal desks, quiet zones, charging points, and comfortable seating, with minimal group activities or social interaction. Many of these libraries operate on subscription models, giving students access to peaceful, time-bound study environments.\n\nWhy Are Self-Study Libraries Gaining Popularity?\n\n1. The Distraction-Free Demand\nIn a world dominated by smartphones, social media, and constant notifications, students are actively seeking spaces where they can disconnect and fully concentrate. Self-study libraries offer strict quiet policies and personal study zones that help eliminate distractions and enable deep, uninterrupted work.\n\n2. Flexible, Membership-Based Access\nMany modern self-study libraries now operate with flexible subscription plans (hourly, daily, or monthly), allowing students to choose when and how often they use the space. This flexibility appeals to competitive exam aspirants, freelancers, and students who need structure but value control over their schedules.\n\n3. Rise in Competitive Exams and Self-Paced Learning\nThe surge in self-study libraries is closely linked to the growing number of students preparing for competitive exams like UPSC, NEET, JEE, and CA, where independent study and long hours of focus are crucial. Additionally, the rise of online courses and self-paced learning platforms encourages students to seek quiet physical spaces where they can fully engage in independent study.\n\n4. A Solution for Small Homes and Noisy Environments\nNot all students have access to quiet, comfortable spaces at home. Self-study libraries provide an ideal escape from household distractions, limited space, and noisy surroundings, offering a professional environment that supports serious study.\n\n5. Minimal Facilities, Maximum Focus\nUnlike traditional libraries with vast book collections, self-study libraries focus more on minimalistic setups that reduce clutter and encourage concentration. Key facilities often include personal LED desk lights, charging ports, ergonomic chairs, high-speed Wi-Fi (often optional), and clean, separated washrooms.\n\nBenefits of Self-Study Libraries\n• Boosts Productivity: Dedicated space encourages students to stay focused for longer.\n• Builds Discipline: Fixed timings promote time management and regularity.\n• Mental Well-being: Calm environments help reduce stress and overstimulation.\n• Flexible Study Options: Choose study hours that fit your personal rhythm.\n\nThe Future of Self-Study Libraries\nAs urbanization increases and more students pursue self-driven educational paths, the demand for self-study libraries is expected to grow. Many modern libraries are now integrating features like personal lockers, private cabins, mindfulness zones, and cafeteria corners for study breaks. Some libraries are even offering digital reservation systems and integrating wellness resources, making them more student-friendly and accessible than ever before.\n\nFinal Thoughts\nThe rise of self-study libraries is not just a passing trend — it represents a shift in how students approach learning in the modern world. In an era of endless digital distractions, these libraries offer something rare and valuable: a quiet space to think, learn, and grow independently.\n\nIf you're someone struggling to stay focused at home or looking for a disciplined study environment, visiting a self-study library might just be your next game-changer.",
     image: "/blogs/4.jpg",
     category: "Education",
-    author: "Education Researcher",
-    date: "2025-01-30"
-  },
+    author: "Education Researcher"
+  }
 ];
 
-export default function BlogPost({ params }: { params: { id: string } }) {
-  const post = posts.find(p => p.id === params.id);
-  
+export default async function Page({ params }: { params: Promise<{ id: string }>  }) {
+  const {id} = await params;
+  const post = posts.find(p => p.id === id);
   if (!post) {
     notFound();
   }
@@ -74,7 +75,6 @@ export default function BlogPost({ params }: { params: { id: string } }) {
               className="object-cover"
               priority
             />
-            
             {/* Category Badge */}
             {post.category && (
               <div className="absolute top-6 left-6 z-20">
