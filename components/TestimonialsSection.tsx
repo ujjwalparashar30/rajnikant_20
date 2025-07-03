@@ -6,47 +6,47 @@ import React from "react";
 const testimonials = [
   {
     text: "Best place for study. With AC, suitable and relaxing chairs. Lockers are also available here. There are 2 bathrooms. Here is the lunch area also. You can join this library and make a strong focus on your desired study.",
-    imageSrc: "/REVIEW/1.PNG",
+    imageSrc: "/REVIEW/1.png",
     name: "Suraj Kumar",
   },
   {
     text: "Good Library with a good environment… it has been 2 months there. Owner is also kind and polite. Good experience!",
-    imageSrc: "/REVIEW/2.PNG",
+    imageSrc: "/REVIEW/2.png",
     name: "Kartik Tiwari",
   },
   {
     text: "- Silent study zones with strict noise control\n- High-speed Wi-Fi for uninterrupted research\n- Tea/coffee station for refreshments\n- Newspapers & magazines available for breaks\n- Comfortable ergonomic chairs and study desks\n- Ample charging ports at every seat\n- Bright lighting and climate-controlled environment\n- Secure locker facilities for personal belongings\n- Good ventilation and AC\n- Clean restrooms and common areas\n- Well-maintained furniture and equipment\n- Friendly and helpful behaviour of owner",
-    imageSrc: "/REVIEW/3.PNG",
+    imageSrc: "/REVIEW/3.png",
     name: "Amrita Bhagat",
   },
   {
     text: "The environment of Shanti Library is best for achieving educational objectives. The facilities provided by Shanti Library are best for all the students.",
-    imageSrc: "/REVIEW/4.PNG",
+    imageSrc: "/REVIEW/4.png",
     name: "Anshu Tiwari",
   },
   {
     text: "A beautiful and peaceful place for study. There are many facilities like AC, water, comfortable chairs, etc.",
-    imageSrc: "/REVIEW/5.PNG",
+    imageSrc: "/REVIEW/5.png",
     name: "Deva Haldar",
   },
   {
     text: "Very good environment for all students who are dedicated to any competitive or other exam. Also, very good staff always ready to help the students.",
-    imageSrc: "/REVIEW/6.PNG",
+    imageSrc: "/REVIEW/6.png",
     name: "Mohit Verma",
   },
   {
     text: "Shanti Library gave me the peace and focus I needed to prepare for both NDA and CUET. With their calm environment and mentor support, I scored 794 out of 800 in CUET and cleared NDA too. This place truly shaped my future.",
-    imageSrc: "/REVIEW/7.PNG",
+    imageSrc: "/REVIEW/7.png",
     name: "Hariom Mishra",
   },
   {
     text: "I cracked SSC and got selected as an Excise Inspector—all thanks to Shanti Library. The study-friendly environment, supportive staff, and access to all required materials helped me stay on track. Highly recommended for serious aspirants.",
-    imageSrc: "/REVIEW/8.PNG",
+    imageSrc: "/REVIEW/8.png",
     name: "Amit Kumar",
   },
   {
     text: "From CPT to CA Final, every step of my CA journey was backed by the atmosphere at Shanti Library. It became my second home. The discipline, resources, and comfort here played a key role in my success. Grateful always!",
-    imageSrc: "/REVIEW/9.PNG",
+    imageSrc: "/REVIEW/9.png",
     name: "CA Suresh Kumar",
   },
 ];

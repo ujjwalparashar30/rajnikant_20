@@ -32,7 +32,7 @@ export default function NavBar() {
       <div className={`flex items-center transition-all duration-500 ${isScrolled ? "space-x-1" : "space-x-2"}`}>
         <div className="flex items-center font-bold text-xl group">
           <img
-            src="logo_shanti_library.JPG"
+            src="logo_shanti_library.jpg"
             alt="Shanti Library Logo"
             className={`mr-2 transition-all duration-500 group-hover:scale-110 ${isScrolled ? "h-6" : "h-8"}`}
           />
