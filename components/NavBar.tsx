@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "./ui/button";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function NavBar() {
@@ -32,11 +31,9 @@ export default function NavBar() {
     >
       <div className={`flex items-center transition-all duration-500 ${isScrolled ? "space-x-1" : "space-x-2"}`}>
         <div className="flex items-center font-bold text-xl group">
-          <Image
-            src="/logo_shanti_library.jpg"
+          <img
+            src="logo_shanti_library.JPG"
             alt="Shanti Library Logo"
-            width={120}
-            height={40}
             className={`mr-2 transition-all duration-500 group-hover:scale-110 ${isScrolled ? "h-6" : "h-8"}`}
           />
           <span className={`transition-all duration-500 transform ${isScrolled ? "text-cyan-500 rotate-12" : "text-cyan-400 rotate-0"}`}>|</span>

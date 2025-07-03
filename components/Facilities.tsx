@@ -36,36 +36,36 @@ const facilities = [
 const facilityImageSets = [
   {
     images: [
-      { src: "facilities/ac-room.jpg", alt: "Air Conditioned Study Hall" },
-      { src: "facilities/free_wifi.jpg", alt: "Free Wi-Fi Zone" },
-      { src: "facilities/security.jpg", alt: "CCTV Security System" },
+      { src: "/facilities/ac-room.jpg", alt: "Air Conditioned Study Hall" },
+      { src: "/facilities/free_wifi.jpg", alt: "Free Wi-Fi Zone" },
+      { src: "/facilities/security.jpg", alt: "CCTV Security System" },
     ],
     relatedFacilities: [0, 1, 2], // AC, Wi-Fi, CCTV
   },
   {
     images: [
-      { src: "facilities/water-station.jpg", alt: "RO Water Station" },
-      { src: "facilities/study-chairs.jpg", alt: "Comfortable Study Chairs" },
-      { src: "facilities/parking-area.jpg", alt: "Parking Facility" },
+      { src: "/facilities/water-station.jpg", alt: "RO Water Station" },
+      { src: "/facilities/study-chairs.jpg", alt: "Comfortable Study Chairs" },
+      { src: "/facilities/parking-area.jpg", alt: "Parking Facility" },
     ],
     relatedFacilities: [3, 4, 5], // RO Water, Chairs, Parking
   },
   {
     images: [
       {
-        src: "facilities/newspaper-section.jpg",
-        alt: "Daily Newspaper Section",
+        src: "/facilities/newspaper-section.jpg",
+        alt: "/Daily Newspaper Section",
       },
-      { src: "facilities/coffee-machine.jpg", alt: "Coffee Machine Area" },
-      { src: "facilities/printer-station.jpg", alt: "Printer Access Point" },
+      { src: "/facilities/coffee-machine.jpg", alt: "Coffee Machine Area" },
+      { src: "/facilities/printer-station.jpg", alt: "Printer Access Point" },
     ],
     relatedFacilities: [6, 7, 8], // Newspaper, Coffee, Printer
   },
   {
     images: [
-      { src: "facilities/cafeteria.jpg", alt: "Library Cafeteria" },
-      { src: "facilities/washrooms.jpg", alt: "Clean Washroom Facilities" },
-      { src: "facilities/charging-points.jpg", alt: "Device Charging Station" },
+      { src: "/facilities/cafeteria.jpg", alt: "Library Cafeteria" },
+      { src: "/facilities/washrooms.jpg", alt: "Clean Washroom Facilities" },
+      { src: "/facilities/charging-points.jpg", alt: "Device Charging Station" },
     ],
     relatedFacilities: [9, 10, 11], // Cafeteria, Washrooms, Charging
   },
