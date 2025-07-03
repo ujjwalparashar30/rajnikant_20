@@ -2,13 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Tag,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Tag, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 interface BlogPost {
   id: string;
@@ -67,38 +64,27 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
   slideInterval = 5000,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isAutoSliding, setIsAutoSliding] = useState(autoSlide);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const router = useRouter();
 
   // Auto-slide functionality
   useEffect(() => {
-    if (!isAutoSliding || isExpanded) return;
+    if (!isAutoSliding) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) =>
-        prevIndex === posts.length - 1 ? 0 : prevIndex + 1
+        prevIndex >= posts.length - 3 ? 0 : prevIndex + 1
       );
     }, slideInterval);
 
     return () => clearInterval(interval);
-  }, [isAutoSliding, isExpanded, slideInterval]);
-
-  const goToSlide = (index: number) => {
-    if (index === currentIndex) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentIndex(index);
-      setIsExpanded(false);
-      setIsTransitioning(false);
-    }, 150);
-  };
+  }, [isAutoSliding, slideInterval]);
 
   const goToPrevious = () => {
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex(currentIndex === 0 ? posts.length - 1 : currentIndex - 1);
-      setIsExpanded(false);
+      setCurrentIndex(currentIndex === 0 ? posts.length - 3 : currentIndex - 1);
       setIsTransitioning(false);
     }, 150);
   };
@@ -106,23 +92,17 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
   const goToNext = () => {
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentIndex(currentIndex === posts.length - 1 ? 0 : currentIndex + 1);
-      setIsExpanded(false);
+      setCurrentIndex(currentIndex >= posts.length - 3 ? 0 : currentIndex + 1);
       setIsTransitioning(false);
     }, 150);
   };
 
-  const handleViewMore = () => {
-    setIsExpanded(true);
-    setIsAutoSliding(false);
+  const handleReadMore = (postId: string) => {
+    // Navigate to individual blog post page
+    router.push(`/blog/${postId}`);
   };
 
-  const handleViewLess = () => {
-    setIsExpanded(false);
-    setIsAutoSliding(autoSlide);
-  };
-
-  const truncateText = (text: string, wordLimit: number = 35) => {
+  const truncateText = (text: string, wordLimit: number = 25) => {
     const words = text.split(" ");
     if (words.length <= wordLimit) return text;
     return words.slice(0, wordLimit).join(" ");
@@ -136,158 +116,164 @@ const BlogSlider: React.FC<BlogSliderProps> = ({
     );
   }
 
-  const currentPost = posts[currentIndex];
+  // Responsive: show 1 blog on small, 2 on md, 3 on lg+
+  const [visibleCount, setVisibleCount] = useState(3);
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+    updateVisibleCount();
+    window.addEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener('resize', updateVisibleCount);
+  }, []);
+
+  // Get N consecutive posts starting from currentIndex, wrap around
+  const getVisiblePosts = () => {
+    if (posts.length <= visibleCount) return posts;
+    const visiblePosts = [];
+    for (let i = 0; i < visibleCount; i++) {
+      const index = (currentIndex + i) % posts.length;
+      visiblePosts.push(posts[index]);
+    }
+    return visiblePosts;
+  };
+
+  const visiblePosts = getVisiblePosts();
+
+  // Fix: When clicking indicators, set currentIndex so that the first visible post is correct
+  const handleIndicatorClick = (index: number) => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((index * 3) % posts.length);
+      setIsTransitioning(false);
+    }, 150);
+  };
 
   return (
-    <div className="w-full max-w-7xl mx-auto relative">
-      {/* Main Slider Container */}
-      <Card className="overflow-hidden shadow-2xl border-0 bg-gradient-to-br from-white to-gray-50 rounded-3xl">
-        <div className="relative">
-          {/* Blog Post Image with Enhanced Styling */}
-          {currentPost.image && (
-            <div className="relative w-full h-80 md:h-96 lg:h-[500px] overflow-hidden">
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
+    <div className="w-full max-w-7xl mx-auto relative mt-20">
+      <h2 className="text-4xl font-bold text-center mb-4">
+        Unlock Your <span className="text-cyan-500">Study</span> Potential
+      </h2>
+      <p className="text-lg text-center text-gray-500 mb-10">
+        Read how focus, habits, and the right environment make all the difference
+      </p>
 
-              {/* Image with smooth transitions */}
-              <div
-                className={`w-full h-full transition-all duration-700 ease-in-out ${
-                  isTransitioning
-                    ? "scale-110 opacity-0"
-                    : "scale-105 opacity-100"
-                }`}
-              >
+      {/* Navigation Arrows */}
+      {posts.length > 3 && (
+        <>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white shadow-xl border-0 w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 z-20 backdrop-blur-sm"
+            onClick={goToPrevious}
+            aria-label="Previous"
+          >
+            <ChevronLeft className="h-5 w-5 text-gray-700" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white shadow-xl border-0 w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 z-20 backdrop-blur-sm"
+            onClick={goToNext}
+            aria-label="Next"
+          >
+            <ChevronRight className="h-5 w-5 text-gray-700" />
+          </Button>
+        </>
+      )}
+
+      {/* Responsive Cards Grid: 1 on small, 2 on md, 3 on lg+ */}
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-500 ${
+        isTransitioning ? "opacity-0 translate-y-4" : "opacity-100 translate-y-0"
+      }`}>
+        {visiblePosts.map((post, index) => (
+          <Card
+            key={`${post.id}-${currentIndex}-${index}`}
+            className="overflow-hidden shadow-xl border-0 bg-gradient-to-br from-white to-gray-50 rounded-2xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+          >
+            {/* Blog Post Image */}
+            {post.image && (
+              <div className="relative w-full h-48 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent z-10"></div>
                 <Image
-                  src={currentPost.image}
-                  alt={currentPost.title}
+                  src={post.image}
+                  alt={post.title}
                   fill
-                  className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-110"
+                  className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-110"
                   style={{
                     filter: "brightness(1.1) contrast(1.1) saturate(1.2)",
-                    objectPosition: "center 30%",
                   }}
-                  sizes="(max-width: 768px) 100vw, 700px"
-                  priority={true}
+                  sizes={
+                    visibleCount === 1
+                      ? "100vw"
+                      : visibleCount === 2
+                        ? "(max-width: 1024px) 50vw, 50vw"
+                        : "(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                  }
                 />
-              </div>
-
-              {/* Floating Category Badge */}
-              {currentPost.category && (
-                <div className="absolute top-6 left-6 z-20">
-                  <div className="bg-cyan-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm border border-white/20 flex items-center gap-2">
-                    <Tag className="w-4 h-4" />
-                    {currentPost.category}
+                {/* Category Badge */}
+                {post.category && (
+                  <div className="absolute top-4 left-4 z-20">
+                    <div className="bg-cyan-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm border border-white/20 flex items-center gap-1">
+                      <Tag className="w-3 h-3" />
+                      {post.category}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            )}
 
-              {/* Enhanced Navigation Arrows */}
-              {!isExpanded && posts.length > 1 && (
-                <>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white shadow-xl border-0 w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 z-20 backdrop-blur-sm"
-                    onClick={goToPrevious}
-                  >
-                    <ChevronLeft className="h-5 w-5 text-gray-700" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white shadow-xl border-0 w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 z-20 backdrop-blur-sm"
-                    onClick={goToNext}
-                  >
-                    <ChevronRight className="h-5 w-5 text-gray-700" />
-                  </Button>
-                </>
-              )}
+            {/* Content Section */}
+            <CardContent className="p-6">
+              {/* Title */}
+              <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2">
+                {post.title}
+              </h3>
 
-              {/* Enhanced Slide Indicators */}
-              {!isExpanded && posts.length > 1 && (
-                <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-                  {posts.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`transition-all duration-500 rounded-full ${
-                        index === currentIndex
-                          ? "w-8 h-3 bg-cyan-500 shadow-lg"
-                          : "w-3 h-3 bg-white/60 hover:bg-white/90 hover:scale-125"
-                      }`}
-                      onClick={() => goToSlide(index)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+              {/* Content Preview */}
+              <p className="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                {truncateText(post.content)}
+                {post.content.split(" ").length > 25 && (
+                  <span className="text-gray-400">...</span>
+                )}
+              </p>
+
+              {/* Read More Button */}
+              <Button
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 flex items-center gap-2"
+                onClick={() => handleReadMore(post.id)}
+              >
+                Read Full Article
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Slide Indicators */}
+      {posts.length > visibleCount && (
+        <div className="flex justify-center mt-8 space-x-3">
+          {Array.from({ length: posts.length }).map((_, index) => (
+            <button
+              key={index}
+              className={`transition-all duration-500 rounded-full ${
+                index === currentIndex
+                  ? "w-8 h-3 bg-cyan-500 shadow-lg"
+                  : "w-3 h-3 bg-gray-300 hover:bg-gray-400 hover:scale-125"
+              }`}
+              onClick={() => handleIndicatorClick(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
-
-        {/* Enhanced Content Section */}
-        <CardContent className="p-8 md:p-12 relative">
-          {/* Decorative Elements */}
-          <div className="absolute top-0 left-0 w-32 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
-
-          {/* Enhanced Title */}
-          <h2
-            className={`text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-6 leading-tight transition-all duration-500 ${
-              isTransitioning
-                ? "opacity-0 translate-y-4"
-                : "opacity-100 translate-y-0"
-            }`}
-          >
-            {currentPost.title}
-          </h2>
-
-          {/* Enhanced Content */}
-          <div
-            className={`prose prose-xl max-w-none transition-all duration-500 ${
-              isTransitioning
-                ? "opacity-0 translate-y-4"
-                : "opacity-100 translate-y-0"
-            }`}
-          >
-            <p className="text-gray-700 leading-relaxed text-lg md:text-xl mb-8">
-              {isExpanded ? (
-                <span className="whitespace-pre-line">
-                  {currentPost.content}
-                </span>
-              ) : (
-                <>
-                  {truncateText(currentPost.content)}
-                  {currentPost.content.split(" ").length > 35 && (
-                    <span className="text-gray-400">...</span>
-                  )}
-                </>
-              )}
-            </p>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 mt-8">
-              {!isExpanded && currentPost.content.split(" ").length > 35 && (
-                <Button
-                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
-                  onClick={handleViewMore}
-                >
-                  Read Full Article
-                </Button>
-              )}
-
-              {isExpanded && (
-                <Button
-                  variant="outline"
-                  className="border-cyan-500 text-cyan-600 hover:bg-cyan-50 px-8 py-3 rounded-full font-semibold transition-all duration-300"
-                  onClick={handleViewLess}
-                >
-                  Show Less
-                </Button>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Enhanced Thumbnail Navigation */}
+      )}
     </div>
   );
 };

@@ -21,74 +21,71 @@ const StudentSuccessSlider: React.FC = () => {
   const students: Student[] = [
     {
       id: 1,
-      name: "Rahul Sharma",
-      exam: "JEE Advanced",
-      rank: "AIR 15",
-      image: "facilities/cafeteria.jpg",
+      name: "Hari Om Mishra",
+      exam: "CUET",
+      rank: "Scored 794/800",
+      image: "/success/success3.jpeg",
       year: "2024",
-      college: "IIT Delhi"
+      college: "Graduation"
     },
     {
       id: 2,
-      name: "Priya Patel",
-      exam: "NEET",
-      rank: "AIR 42",
-      image: "facilities/free_wifi.jpg",
-      year: "2024",
-      college: "AIIMS Delhi"
+      name: "Amit Kumar",
+      exam: "SSC",
+      rank: "Excise GST Inspector",
+      image: "/success/succes1.jpeg",
+      year: "2023",
+      college: ""
     },
     {
       id: 3,
-      name: "Arjun Kumar",
-      exam: "UPSC CSE",
-      rank: "AIR 8",
-      image: "facilities/washroooms.jpg",
-      year: "2023",
-      college: "IAS Officer"
-    },
-    {
-      id: 4,
-      name: "Sneha Gupta",
-      exam: "CAT",
-      rank: "AIR 25",
-      image: "facilities/water-station.jpg",
-      year: "2023",
-      college: "IIM Bangalore"
-    },
-    {
-      id: 5,
-      name: "Ankit Singh",
-      exam: "GATE",
-      rank: "AIR 10",
-      image: "facilities/security.jpg",
+      name: "Suresh Kumar",
+      exam: "CA Final Year",
+      rank: "Chartered Accountant",
+      image: "/success/success2.jpeg",
       year: "2024",
-      college: "IIT Bombay"
+      college: ""
     }
   ]
 
-  const visibleCount = 3
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % (students.length - visibleCount + 1))
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + (students.length - visibleCount + 1)) % (students.length - visibleCount + 1))
-  }
+  // Show 1 card on small screens, 3 on md+
+  const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    const interval = setInterval(nextSlide, 5000)
-    return () => clearInterval(interval)
-  }, [])
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+    updateVisibleCount();
+    window.addEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener('resize', updateVisibleCount);
+  }, []);
+
+  const maxSlide = students.length - visibleCount + 1;
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % maxSlide);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + maxSlide) % maxSlide);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
+  }, [visibleCount]);
 
   const getVisibleStudents = () => {
-    return students.slice(currentSlide, currentSlide + visibleCount)
-  }
+    return students.slice(currentSlide, currentSlide + visibleCount);
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Success Stories</h2>
+        <h2 className="text-4xl font-bold text-gray-900 mb-4">Our <span className='text-cyan-500'>Success</span> Stories</h2>
         <p className="text-gray-600 text-lg">Students who achieved their dreams with us</p>
       </div>
 
@@ -103,9 +100,9 @@ const StudentSuccessSlider: React.FC = () => {
             <ChevronLeft className="h-5 w-5" />
           </Button>
 
-          <div className="flex space-x-6 px-16">
+          <div className={`flex px-4 md:px-16 ${visibleCount === 1 ? 'justify-center' : 'space-x-6'}`}>
             {getVisibleStudents().map((student) => (
-              <Card key={student.id} className="flex-1 overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <Card key={student.id} className="flex-1 max-w-xs md:max-w-none overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <CardContent className="p-0 relative">
                   <div className="aspect-[3/4] relative overflow-hidden">
                     <img

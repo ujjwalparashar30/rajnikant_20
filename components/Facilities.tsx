@@ -130,35 +130,60 @@ export default function FacilitiesSlider() {
       {/* 3-Image Slider Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative group">
-          {/* 3 Images Container */}
+          {/* Responsive Images Container: 1 image on small screens, 3 on md+ */}
           <div className="relative h-80 md:h-96 overflow-hidden rounded-2xl">
             {facilityImageSets.map((imageSet, setIndex) => (
-              <div
-                key={setIndex}
-                className={`absolute inset-0 grid grid-cols-3 gap-4 p-4 transition-all duration-700 ease-in-out ${
-                  setIndex === currentSetIndex
-                    ? "opacity-100 z-10"
-                    : "opacity-0 z-0"
-                }`}
-              >
-                {imageSet.images.map((image, imageIndex) => (
-                  <div
-                    key={imageIndex}
-                    className="relative overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300"
-                  >
+              <>
+                {/* For medium and up: show 3 images */}
+                <div
+                  key={"md-" + setIndex}
+                  className={`hidden md:grid absolute inset-0 grid-cols-3 gap-4 p-4 transition-all duration-700 ease-in-out ${
+                    setIndex === currentSetIndex
+                      ? "opacity-100 z-10"
+                      : "opacity-0 z-0"
+                  }`}
+                >
+                  {imageSet.images.map((image, imageIndex) => (
+                    <div
+                      key={imageIndex}
+                      className="relative overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300"
+                    >
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      <div className="absolute bottom-2 left-2 bg-black/70 text-white px-3 py-1 rounded-md">
+                        <p className="text-xs font-medium">{image.alt}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* For small screens: show only the first image */}
+                <div
+                  key={"sm-" + setIndex}
+                  className={`md:hidden absolute inset-0 grid grid-cols-1 gap-4 p-4 transition-all duration-700 ease-in-out ${
+                    setIndex === currentSetIndex
+                      ? "opacity-100 z-10"
+                      : "opacity-0 z-0"
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300">
                     <Image
-                      src={image.src}
-                      alt={image.alt}
+                      src={imageSet.images[0].src}
+                      alt={imageSet.images[0].alt}
                       fill
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="100vw"
                     />
                     <div className="absolute bottom-2 left-2 bg-black/70 text-white px-3 py-1 rounded-md">
-                      <p className="text-xs font-medium">{image.alt}</p>
+                      <p className="text-xs font-medium">{imageSet.images[0].alt}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              </>
             ))}
 
             {/* Navigation Arrows */}

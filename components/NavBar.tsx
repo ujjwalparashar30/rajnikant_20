@@ -45,7 +45,7 @@ export default function NavBar() {
 
       <div className={`hidden md:flex items-center transition-all duration-500 ${isScrolled ? "space-x-4" : "space-x-8"}`}>
         <a
-          href="#"
+          href="#home"
           className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
             isScrolled 
               ? "text-gray-600 hover:text-gray-900 text-sm" 
@@ -55,17 +55,7 @@ export default function NavBar() {
           Home
         </a>
         <a
-          href="#"
-          className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
-            isScrolled 
-              ? "text-gray-600 hover:text-gray-900 text-sm" 
-              : "text-white/80 hover:text-white text-base"
-          }`}
-        >
-          Plans
-        </a>
-        <a
-          href="#"
+          href="#facilities"
           className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
             isScrolled 
               ? "text-gray-600 hover:text-gray-900 text-sm" 
@@ -75,7 +65,7 @@ export default function NavBar() {
           Facilities
         </a>
         <a
-          href="#"
+          href="#about"
           className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
             isScrolled 
               ? "text-gray-600 hover:text-gray-900 text-sm" 
@@ -84,19 +74,29 @@ export default function NavBar() {
         >
           About Us
         </a>
+        <a
+          href="#blogs"
+          className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
+            isScrolled 
+              ? "text-gray-600 hover:text-gray-900 text-sm" 
+              : "text-white/80 hover:text-white text-base"
+          }`}
+        >
+          Blogs
+        </a>
+        <a
+          href="#booking"
+          className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
+            isScrolled 
+              ? "text-gray-600 hover:text-gray-900 text-sm" 
+              : "text-white/80 hover:text-white text-base"
+          }`}
+        >
+          Contact Us
+        </a>
       </div>
 
       <div className={`flex items-center transition-all duration-500 ${isScrolled ? "space-x-2" : "space-x-4"}`}>
-        <Button
-          variant="outline"
-          className={`transition-all duration-500 hover:scale-105 hover:shadow-lg transform ${
-            isScrolled
-              ? "bg-gray-100/80 border-gray-300 text-gray-700 hover:bg-gray-200/80 hover:border-cyan-300 text-xs px-3 py-1.5"
-              : "bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/40 text-sm px-4 py-2"
-          }`}
-        >
-          Contact
-        </Button>
         <Button className={`bg-cyan-500/90 hover:bg-cyan-600/90 text-white transition-all duration-500 hover:scale-105 hover:shadow-xl transform hover:-translate-y-0.5 active:scale-95 ${
           isScrolled ? "text-xs px-3 py-1.5" : "text-sm px-4 py-2"
         }`}>
