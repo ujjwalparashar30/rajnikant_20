@@ -1,9 +1,26 @@
-'use client'
+ 'use client'
+  // Animation variants for horizontal slide
+  const cardVariants = {
+    enter: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? 100 : -100,
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+    },
+    exit: (direction: number) => ({
+      opacity: 0,
+      x: direction > 0 ? -100 : 100,
+    }),
+  };
+
 
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface Student {
   id: number
@@ -17,6 +34,7 @@ interface Student {
 
 const StudentSuccessSlider: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [direction, setDirection] = useState(1) // 1 for next, -1 for prev
 
   const students: Student[] = [
     {
@@ -66,10 +84,12 @@ const StudentSuccessSlider: React.FC = () => {
 
   const maxSlide = students.length - visibleCount + 1;
   const nextSlide = () => {
+    setDirection(1);
     setCurrentSlide((prev) => (prev + 1) % maxSlide);
   };
 
   const prevSlide = () => {
+    setDirection(-1);
     setCurrentSlide((prev) => (prev - 1 + maxSlide) % maxSlide);
   };
 
@@ -86,7 +106,7 @@ const StudentSuccessSlider: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 py-12">
       <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-900 mb-4">Our <span className='text-cyan-500'>Success</span> Stories</h2>
-        <p className="text-gray-600 text-lg">Students who achieved their dreams with us</p>
+        <p className="text-gray-600 text-lg">Toppers Who Trusted Us</p>
       </div>
 
       <div className="relative">
@@ -100,32 +120,47 @@ const StudentSuccessSlider: React.FC = () => {
             <ChevronLeft className="h-5 w-5" />
           </Button>
 
-          <div className={`flex px-4 md:px-16 ${visibleCount === 1 ? 'justify-center' : 'space-x-6'}`}>
-            {getVisibleStudents().map((student) => (
-              <Card key={student.id} className="flex-1 max-w-xs md:max-w-none overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <CardContent className="p-0 relative">
-                  <div className="aspect-[3/4] relative overflow-hidden">
-                    <img
-                      src={student.image}
-                      alt={student.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                      <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4">
-                        <h3 className="text-xl font-bold mb-2">{student.name}</h3>
-                        <div className="space-y-1">
-                          <p className="text-sm font-semibold text-blue-300">{student.exam}</p>
-                          <p className="text-lg font-bold text-green-400">{student.rank}</p>
-                          <p className="text-sm text-gray-300">{student.college}</p>
-                          <p className="text-xs text-gray-400">{student.year}</p>
+          <div className={`flex px-4 md:px-16 ${visibleCount === 1 ? 'justify-center' : 'space-x-6'}`}
+            style={{ minHeight: '480px', position: 'relative' }}>
+            <AnimatePresence initial={false} mode="wait">
+              {getVisibleStudents().map((student) => (
+                <motion.div
+                  key={student.id + '-' + currentSlide}
+                  custom={direction}
+                  variants={cardVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.4, ease: 'easeInOut' }}
+                  className="flex-1 max-w-xs md:max-w-none"
+                  style={{ minWidth: 0 }}
+                >
+                  <Card className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                    <CardContent className="p-0 relative">
+                      <div className="aspect-[3/4] relative overflow-hidden">
+                        <img
+                          src={student.image}
+                          alt={student.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                          <div className="bg-black/40 backdrop-blur-sm rounded-lg p-4">
+                            <h3 className="text-xl font-bold mb-2">{student.name}</h3>
+                            <div className="space-y-1">
+                              <p className="text-sm font-semibold text-blue-300">{student.exam}</p>
+                              <p className="text-lg font-bold text-green-400">{student.rank}</p>
+                              <p className="text-sm text-gray-300">{student.college}</p>
+                              <p className="text-xs text-gray-400">{student.year}</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           <Button

@@ -65,7 +65,7 @@ export default function NavBar() {
           Facilities
         </a>
         <a
-          href="#about"
+          href="#video"
           className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
             isScrolled 
               ? "text-gray-600 hover:text-gray-900 text-sm" 
@@ -73,6 +73,16 @@ export default function NavBar() {
           }`}
         >
           About Us
+        </a>
+        <a
+          href="#testimonials"
+          className={`relative transition-all duration-500 hover:scale-105 before:absolute before:bottom-0 before:left-0 before:w-0 before:h-0.5 before:bg-cyan-500 before:transition-all before:duration-300 hover:before:w-full ${
+            isScrolled 
+              ? "text-gray-600 hover:text-gray-900 text-sm" 
+              : "text-white/80 hover:text-white text-base"
+          }`}
+        >
+          Testimonial
         </a>
         <a
           href="#blogs"
@@ -92,16 +102,18 @@ export default function NavBar() {
               : "text-white/80 hover:text-white text-base"
           }`}
         >
-          Contact Us
+          Booking
         </a>
       </div>
 
       <div className={`flex items-center transition-all duration-500 ${isScrolled ? "space-x-2" : "space-x-4"}`}>
-        <Button className={`bg-cyan-500/90 hover:bg-cyan-600/90 text-white transition-all duration-500 hover:scale-105 hover:shadow-xl transform hover:-translate-y-0.5 active:scale-95 ${
+        <a href="#booking">
+          <Button className={`bg-cyan-500/90 hover:bg-cyan-600/90 text-white transition-all duration-500 hover:scale-105 hover:shadow-xl transform hover:-translate-y-0.5 active:scale-95 ${
           isScrolled ? "text-xs px-3 py-1.5" : "text-sm px-4 py-2"
         }`}>
-          Reserve Now
+          Book Now
         </Button>
+        </a>
       </div>
     </nav>
   );

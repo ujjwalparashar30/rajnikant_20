@@ -52,7 +52,7 @@ export default function LibraryContact() {
   const handleDirections = () => {
     const fullAddress = `${libraryInfo.street}, ${libraryInfo.area}, ${libraryInfo.city}, ${libraryInfo.state} ${libraryInfo.zipCode}`;
     const address = encodeURIComponent(fullAddress);
-    window.open(`https://maps.google.com/maps?q=${address}`, '_blank');
+    window.open(`https://www.google.com/maps/place/Shanti+Library/@28.6288976,77.2934965,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce503e852b0bd:0xd88058e680d3bbe4!8m2!3d28.6288976!4d77.2960714!16s%2Fg%2F11vczgckmh?entry=tts&g_ep=EgoyMDI0MDUyMS4wKgBIAVAD`, '_blank');
   };
 
   function handleShare() {
@@ -333,27 +333,28 @@ export default function LibraryContact() {
               <p className="text-gray-600">Choose your preferred way to connect with us</p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Updated Grid Layout - 2x2 for mobile, 2x2 for small screens, 1x4 for larger screens */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
               {contactActions.map((action, index) => (
                 <motion.button
                   key={index}
                   onClick={action.onClick}
-                  className={`flex flex-col items-center justify-center gap-4 p-6 bg-white rounded-2xl shadow-lg transition-all duration-200 group hover:shadow-xl hover:bg-gray-50`}
+                  className={`flex flex-col items-center justify-center gap-3 sm:gap-4 p-4 sm:p-6 bg-white rounded-2xl shadow-lg transition-all duration-200 group hover:shadow-xl hover:bg-gray-50 min-h-[140px] sm:min-h-[160px]`}
                   variants={contactButtonVariants}
                   whileHover="hover"
                   whileTap="tap"
                   custom={index}
                 >
                   <motion.div 
-                    className={`w-16 h-16 rounded-full flex items-center justify-center border-2 ${action.borderColor} ${action.hoverBorderColor} transition-colors`}
+                    className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center border-2 ${action.borderColor} ${action.hoverBorderColor} transition-colors`}
                     variants={iconVariants}
                     whileHover="hover"
                   >
-                    <action.icon size={24} className={action.iconColor} />
+                    <action.icon size={20} className={`${action.iconColor} sm:w-6 sm:h-6`} />
                   </motion.div>
                   <div className="text-center">
-                    <p className="font-semibold text-gray-900">{action.title}</p>
-                    <p className="text-gray-600 text-sm">{action.subtitle}</p>
+                    <p className="font-semibold text-gray-900 text-sm sm:text-base">{action.title}</p>
+                    <p className="text-gray-600 text-xs sm:text-sm mt-1 leading-tight">{action.subtitle}</p>
                   </div>
                 </motion.button>
               ))}

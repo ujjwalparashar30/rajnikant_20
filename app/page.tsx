@@ -16,24 +16,30 @@ import VideoTextSection from "@/components/VideoTextSection";
 // import Image from "next/image";
 
 import { motion } from "framer-motion";
+import React from "react";
 
 export default function Home() {
+  const [plan, setPlan] = React.useState<string>("");
   return (
     <>
       <NavBar />
       <motion.section id="home" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <HeroSection classes="top-0" />
       </motion.section>
-      <PlansSection />
+      <motion.section id="plans" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+        <PlansSection setPlan={setPlan} />
+      </motion.section>
       <motion.section id="contact" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <LibraryContact />
       </motion.section>
       <motion.section id="facilities" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <FacilitiesSlider />
       </motion.section>
-      <VideoTextSection />
+      <motion.section id="video" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+        <VideoTextSection />
+      </motion.section>
       <ShantiLibraryAccordion />
-      <motion.section id="about" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+      <motion.section id="testimonials" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
         <TestimonialsSection />
       </motion.section>
       <StudentSuccessSlider />
@@ -41,7 +47,7 @@ export default function Home() {
         <BlogSlider posts={[]} />
       </motion.section>
       <motion.section id="booking" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <BookingFeedbackComponent />
+        <BookingFeedbackComponent plan = {plan} />
       </motion.section>
       <Footer />
     </>
