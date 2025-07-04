@@ -50,8 +50,8 @@ export default function LibraryContact() {
   };
 
   const handleDirections = () => {
-    const fullAddress = `${libraryInfo.street}, ${libraryInfo.area}, ${libraryInfo.city}, ${libraryInfo.state} ${libraryInfo.zipCode}`;
-    const address = encodeURIComponent(fullAddress);
+    // const fullAddress = `${libraryInfo.street}, ${libraryInfo.area}, ${libraryInfo.city}, ${libraryInfo.state} ${libraryInfo.zipCode}`;
+    // const address = encodeURIComponent(fullAddress);
     window.open(`https://www.google.com/maps/place/Shanti+Library/@28.6288976,77.2934965,17z/data=!3m1!4b1!4m6!3m5!1s0x390ce503e852b0bd:0xd88058e680d3bbe4!8m2!3d28.6288976!4d77.2960714!16s%2Fg%2F11vczgckmh?entry=tts&g_ep=EgoyMDI0MDUyMS4wKgBIAVAD`, '_blank');
   };
 

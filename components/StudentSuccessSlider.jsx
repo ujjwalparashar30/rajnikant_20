@@ -1,42 +1,33 @@
- 'use client'
-  // Animation variants for horizontal slide
-  const cardVariants = {
-    enter: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? 100 : -100,
-    }),
-    center: {
-      opacity: 1,
-      x: 0,
-    },
-    exit: (direction: number) => ({
-      opacity: 0,
-      x: direction > 0 ? -100 : 100,
-    }),
-  };
-
-
+"use client";
 import React, { useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-interface Student {
-  id: number
-  name: string
-  exam: string
-  rank: string
-  image: string
-  year: string
-  college?: string
-}
+// Animation variants for horizontal slide
+const cardVariants = {
+  enter: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? 100 : -100,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction) => ({
+    opacity: 0,
+    x: direction > 0 ? -100 : 100,
+  }),
+};
 
-const StudentSuccessSlider: React.FC = () => {
+// StudentSuccessSlider component
+const StudentSuccessSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [direction, setDirection] = useState(1) // 1 for next, -1 for prev
 
-  const students: Student[] = [
+  const students = [
+    /** @type {{id: number, name: string, exam: string, rank: string, image: string, year: string, college?: string}[]} */
     {
       id: 1,
       name: "Hari Om Mishra",

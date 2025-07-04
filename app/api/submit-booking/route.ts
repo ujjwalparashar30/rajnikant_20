@@ -8,10 +8,15 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID || '10s1YA4HF8Lt9ueohXUbJuLxX0IuQ2U
 const SHEET_RANGE = 'A1'; // Change as needed
 
 async function getGoogleAuth() {
-  // Read the service account credentials from the JSON file
-  const credentialsPath = path.join(process.cwd(), 'google-service-account.json');
-  const credentialsRaw = await fs.readFile(credentialsPath, 'utf-8');
-  const credentials = JSON.parse(credentialsRaw);
+  let credentials;
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+    credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
+  } else {
+    // fallback to local file for development
+    const credentialsPath = path.join(process.cwd(), 'google-service-account.json');
+    const credentialsRaw = await fs.readFile(credentialsPath, 'utf-8');
+    credentials = JSON.parse(credentialsRaw);
+  }
 
   const scopes = [
     'https://www.googleapis.com/auth/spreadsheets',
@@ -50,9 +55,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    console.error('Google Sheets API error:', error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error) {
+    const err = error as Error;
+    console.error('Google Sheets API error:', err);
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
 
