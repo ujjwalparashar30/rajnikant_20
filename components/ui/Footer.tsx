@@ -73,23 +73,23 @@ const Footer: React.FC = () => {
               Company
             </h3>
             <nav className="flex flex-col space-y-3">
-              <a href="/home" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+              <a href="#home" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
                 Home
               </a>
-              <a href="/about" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
-                About
+              <a href="#facilities" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                Facilities
               </a>
-              <a href="/solutions" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
-                Solutions
+              <a href="#video" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                About Us
               </a>
-              <a href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
-                Pricing
+              <a href="#testimonials" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                Testimonial
               </a>
-              <a href="/team" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
-                Team
+              <a href="#blogs" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                Blogs
               </a>
-              <a href="/career" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
-                Career
+              <a href="#booking" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                Booking
               </a>
             </nav>
           </div>
@@ -118,17 +118,20 @@ const Footer: React.FC = () => {
               Social
             </h3>
             <nav className="flex flex-col space-y-3">
-              <a href="https://facebook.com" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+              <a href="https://www.facebook.com/share/1C5i3sVhiX/" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
                 Facebook
               </a>
-              <a href="https://instagram.com" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+              <a href="https://www.instagram.com/shantilibrary4u?utm_source=qr" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
                 Instagram
               </a>
-              <a href="https://youtube.com" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+              <a href="https://www.youtube.com/@shantilibrary4u" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
                 Youtube
               </a>
-              <a href="https://twitter.com" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+              <a href="https://x.com/ShantiLibrary" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
                 Twitter
+              </a>
+              <a href="https://www.linkedin.com/company/shantilibrary/?lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3BJI82q6NwRQuDXAiNG0D2rQ%3D%3D" className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">
+                Linkdin
               </a>
             </nav>
           </div>
