@@ -3,43 +3,42 @@ import { google } from 'googleapis';
 import path from 'path';
 import { promises as fs } from 'fs';
 
-// Set your Google Sheet ID and the range where you want to append data
 const SHEET_ID = process.env.GOOGLE_SHEET_ID || '10s1YA4HF8Lt9ueohXUbJuLxX0IuQ2U1ckEUqJDOFd8Q';
-const SHEET_RANGE = 'A1'; // Change as needed
+const SHEET_RANGE = 'A1';
 
 async function getGoogleAuth() {
   let credentials;
-  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
-    credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_JSON);
-  } else {
-    // fallback to local file for development
-    const credentialsPath = path.join(process.cwd(), 'google-service-account.json');
-    const credentialsRaw = await fs.readFile(credentialsPath, 'utf-8');
-    credentials = JSON.parse(credentialsRaw);
-  }
 
-  const scopes = [
-    'https://www.googleapis.com/auth/spreadsheets',
-    'https://www.googleapis.com/auth/drive',
-  ];
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_BASE64) {
+    console.log('Using base64-encoded credentials');
+    // Decode base64-encoded credentials for production
+    const decoded = Buffer.from(process.env.GOOGLE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8');
+    credentials = JSON.parse(decoded);
+  } else {
+    // Fallback to file for local development
+    const filePath = path.join(process.cwd(), 'google-service-account.json');
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    credentials = JSON.parse(fileContents);
+  }
 
   const auth = new google.auth.GoogleAuth({
     credentials,
-    scopes,
+    scopes: [
+      'https://www.googleapis.com/auth/spreadsheets',
+      'https://www.googleapis.com/auth/drive',
+    ],
   });
+
   return auth;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    // Validate body as needed
-    // Example: const { name, email, message } = body;
 
     const auth = await getGoogleAuth();
     const sheets = google.sheets({ version: 'v4', auth });
 
-    // Prepare the row to append (customize as per your form fields)
     const row = [
       new Date().toISOString(),
       ...(Array.isArray(body) ? body : Object.values(body)),
@@ -62,4 +61,4 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export const dynamic = 'force-dynamic'; // Ensure this API route is always dynamic
+export const dynamic = 'force-dynamic';
