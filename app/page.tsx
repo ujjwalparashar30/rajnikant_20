@@ -1,54 +1,68 @@
-"use client";
 import BlogSlider from "@/components/BlogSlider";
-import BookingFeedbackComponent from "@/components/BookingFeedbackComponent";
 import LibraryContact from "@/components/ContactUs";
 import FacilitiesSlider from "@/components/Facilities";
 import HeroSection from "@/components/HeroSection";
 import NavBar from "@/components/NavBar";
-import PlansSection from "@/components/PlanCards";
+import PlansWrapper from "@/components/PlansWrapper";
 import ShantiLibraryAccordion from "@/components/ShantiLibraryAccordion";
-import StudentSuccessSlider from "@/components/StudentSuccessSlider";
+import StudentSuccessSlider from "@/components/StudentSuccessSlider.jsx";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
-// import Testing from "@/components/Testing";
 import Footer from "@/components/ui/Footer";
 import VideoTextSection from "@/components/VideoTextSection";
-// import { Shanti } from "next/font/google";
-// import Image from "next/image";
+import { Metadata } from "next";
 
-import { motion } from "framer-motion";
-import React from "react";
+export const metadata: Metadata = {
+  title: "Home - Premium Study Spaces & Library Services",
+  description: "Welcome to Shanti Library - your premier destination for quiet study spaces, comprehensive library services, and academic excellence. Book your study spot today.",
+  openGraph: {
+    title: "Shanti Library - Premium Study Spaces & Library Services",
+    description: "Welcome to Shanti Library - your premier destination for quiet study spaces and academic excellence.",
+    url: "https://your-domain.com",
+    images: [
+      {
+        url: "/og-home.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Shanti Library Home",
+      },
+    ],
+  },
+};
 
 export default function Home() {
-  const [plan, setPlan] = React.useState<string>("");
   return (
     <>
       <NavBar />
-      <motion.section id="home" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <HeroSection classes="top-0" />
-      </motion.section>
-      <motion.section id="plans" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <PlansSection setPlan={setPlan} />
-      </motion.section>
-      <motion.section id="contact" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <LibraryContact />
-      </motion.section>
-      <motion.section id="facilities" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <FacilitiesSlider />
-      </motion.section>
-      <motion.section id="video" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <VideoTextSection />
-      </motion.section>
-      <ShantiLibraryAccordion />
-      <motion.section id="testimonials" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <TestimonialsSection />
-      </motion.section>
-      <StudentSuccessSlider />
-      <motion.section id="blogs" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <BlogSlider posts={[]} />
-      </motion.section>
-      <motion.section id="booking" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-        <BookingFeedbackComponent plan = {plan} />
-      </motion.section>
+      <main>
+        <section id="home" aria-label="Hero Section">
+          <HeroSection classes="top-0" />
+        </section>
+        
+        {/* PlansWrapper contains both plans and booking sections */}
+        <PlansWrapper />
+        
+        <section id="contact" aria-label="Contact Information">
+          <LibraryContact />
+        </section>
+        <section id="facilities" aria-label="Library Facilities">
+          <FacilitiesSlider />
+        </section>
+        <section id="video" aria-label="Library Overview Video">
+          <VideoTextSection />
+        </section>
+        <section aria-label="Frequently Asked Questions">
+          <ShantiLibraryAccordion />
+        </section>
+        <section id="testimonials" aria-label="Student Testimonials">
+          <TestimonialsSection />
+        </section>
+        <section aria-label="Student Success Stories">
+          <StudentSuccessSlider />
+        </section>
+        <section id="blogs" aria-label="Library Blog">
+          <BlogSlider posts={[]} />
+        </section>
+      </main>
       <Footer />
     </>
   );
